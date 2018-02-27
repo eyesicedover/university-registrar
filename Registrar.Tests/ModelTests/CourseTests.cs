@@ -10,7 +10,7 @@ namespace Registrar.Tests
     {
         public void Dispose()
         {
-            Student.DeleteAll();
+            Course.DeleteAll();
         }
 
         public CourseTests()
@@ -42,6 +42,19 @@ namespace Registrar.Tests
             int testId = testCourse.GetId();
             //Assert
             Assert.AreEqual(testId, result);
+        }
+
+        [TestMethod]
+        public void Find_FindsCourseId_ReturnsCourse()
+        {
+            //arrange
+            Course testCourse = new Course("History", "101", "Mr.Schneider");
+            testCourse.Save();
+
+            //act
+            Course foundCourse = Course.Find(testCourse.GetId());
+            //assert
+            Assert.AreEqual(testCourse, foundCourse);
         }
     }
 }

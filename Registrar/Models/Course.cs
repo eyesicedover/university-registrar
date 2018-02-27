@@ -71,6 +71,23 @@ namespace Registrar.Models
             return this.GetCourseName().GetHashCode();
         }
 
+        public static void DeleteAll()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM courses;";
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
         public static List<Course> GetAll()
         {
             List<Course> allCourses = new List<Course> {};
@@ -95,6 +112,44 @@ namespace Registrar.Models
                 conn.Dispose();
             }
                 return allCourses;
+        }
+
+        public static Course Find(int id)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM `courses` WHERE id = @thisId;";
+
+            MySqlParameter thisId = new MySqlParameter();
+            thisId.ParameterName = "@thisId";
+            thisId.Value = id;
+            cmd.Parameters.Add(thisId);
+
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            int courseId = 0;
+            string courseName = "";
+            string courseNumber = "";
+            string professor = "";
+
+            while (rdr.Read())
+            {
+                courseId = rdr.GetInt32(0);
+                courseName = rdr.GetString(1);
+                courseNumber = rdr.GetString(2);
+                professor = rdr.GetString(3);
+            }
+
+            Course foundCourse = new Course(courseName, courseNumber, professor, courseId);
+
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+
+            return foundCourse;
         }
 
         public void Save()
