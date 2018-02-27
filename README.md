@@ -41,11 +41,11 @@ _This is a project designed to take user input and store information regarding s
 
 * _In Mono command prompt, type >mysql -uroot -proot_
 
-* _In mysql shell type >CREATE DATABASE stephanie_faber_
+* _In mysql shell type >CREATE DATABASE registrar_
 
-* _In mysql shell type >USE stephanie_faber_
+* _In mysql shell type >USE registrar_
 
-* _In mysql shell type >CREATE TABLE stylists (id serial PRIMARY KEY, name VARCHAR(255));_
+* _In mysql shell type >CREATE TABLE students (id serial PRIMARY KEY, name VARCHAR(255), enroll_date VARCHAR(255));_
 
 * _In mysql shell type >CREATE TABLE clients (id serial PRIMARY KEY, name VARCHAR(255), stylistId INT(11));_
 
