@@ -103,7 +103,33 @@ namespace Registrar.Models
                 conn.Dispose();
             }
                 return allStudents;
-            }
+        }
 
+        public void Save()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO `students` (`name`, `enroll_date`) VALUES (@studentName, @studentDate);";
+
+            MySqlParameter name = new MySqlParameter();
+            name.ParameterName = "@studentName";
+            name.Value = this._name;
+            MySqlParameter date = new MySqlParameter();
+            date.ParameterName = "@studentDate";
+            date.Value = this._rawDate;
+            cmd.Parameters.Add(name);
+            cmd.Parameters.Add(date);
+
+            cmd.ExecuteNonQuery();
+            _id = (int) cmd.LastInsertedId;
+
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
     }
 }

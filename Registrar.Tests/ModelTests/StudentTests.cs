@@ -39,5 +39,20 @@ namespace Registrar.Tests
             //Assert
             Assert.AreEqual(0, result);
         }
+
+        [TestMethod]
+        public void Save_SavesToDatabase_StudentList()
+        {
+            //Arrange
+            Student testStudent = new Student("Eric", "2018-02-27");
+
+            //Act
+            testStudent.Save();
+            List<Student> result = Student.GetAll();
+            List<Student> testList = new List<Student>{testStudent};
+
+            //Assert
+            CollectionAssert.AreEqual(testList, result);
+        }
     }
 }
