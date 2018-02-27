@@ -30,14 +30,14 @@ namespace Registrar.Tests
             Assert.AreEqual(firstStudent, secondStudent);
         }
 
-        // [TestMethod]
-        // public void GetAll_DatabaseEmptyAtFirst_0()
-        // {
-        //     //Arrange, Act
-        //     int result = Student.GetAll().Count;
-        //
-        //     //Assert
-        //     Assert.AreEqual(0, result);
-        // }
+        [TestMethod]
+        public void GetAll_DatabaseEmptyAtFirst_0()
+        {
+            //Arrange, Act
+            int result = Student.GetAll().Count;
+
+            //Assert
+            Assert.AreEqual(0, result);
+        }
     }
 }

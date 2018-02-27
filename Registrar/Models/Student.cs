@@ -80,5 +80,30 @@ namespace Registrar.Models
             }
         }
 
+        public static List<Student> GetAll()
+        {
+            List<Student> allStudents = new List<Student> {};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM students;";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+                int studentId = rdr.GetInt32(0);
+                string studentName = rdr.GetString(1);
+                string studentDate = rdr.GetString(2);
+
+                Student newStudent = new Student(studentName, studentDate, studentId);
+                allStudents.Add(newStudent);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+                return allStudents;
+            }
+
     }
 }
