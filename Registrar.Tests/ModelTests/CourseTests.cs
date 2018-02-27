@@ -56,5 +56,22 @@ namespace Registrar.Tests
             //assert
             Assert.AreEqual(testCourse, foundCourse);
         }
+
+        [TestMethod]
+        public void AddStudent_AddsStudentToCourse_StudentList()
+        {
+            //arrange
+            Course testCourse = new Course("History", "101", "Mr.Schneider");
+            testCourse.Save();
+            Student testStudent = new Student("Eric", "2018-02-27");
+            testStudent.Save();
+
+            //act
+            testCourse.AddStudent(testStudent);
+            List<Student> result = testCourse.GetStudents();
+            List<Student> testList = new List<Student>{testStudent};
+            //assert
+            CollectionAssert.AreEqual(testList, result);
+        }
     }
 }

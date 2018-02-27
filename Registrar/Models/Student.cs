@@ -167,5 +167,31 @@ namespace Registrar.Models
                 conn.Dispose();
             }
         }
+
+        public void AddCourse(Course newCourse)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO students_courses (course_id, student_id) VALUES (@CourseId, @StudentId);";
+
+            MySqlParameter courseId = new MySqlParameter();
+            courseId.ParameterName = "@CourseId";
+            courseId.Value = newCourse.GetId();
+            cmd.Parameters.Add(courseId);
+
+            MySqlParameter studentId = new MySqlParameter();
+            studentId.ParameterName = "@StudentId";
+            studentId.Value = _id;
+            cmd.Parameters.Add(studentId);
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
     }
 }
