@@ -28,5 +28,20 @@ namespace Registrar.Tests
             //Assert
             Assert.AreEqual(firstCourse, secondCourse);
         }
+
+        [TestMethod]
+        public void Save_AssignsIdToCourse_CourseId()
+        {
+            //Arrange
+            Course testCourse = new Course("History", "101", "Mr.Schneider");
+            //Act
+            testCourse.Save();
+            Course savedCourse = Course. GetAll()[0];
+
+            int result = savedCourse.GetId();
+            int testId = testCourse.GetId();
+            //Assert
+            Assert.AreEqual(testId, result);
+        }
     }
 }

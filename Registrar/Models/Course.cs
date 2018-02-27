@@ -71,5 +71,65 @@ namespace Registrar.Models
             return this.GetCourseName().GetHashCode();
         }
 
+        public static List<Course> GetAll()
+        {
+            List<Course> allCourses = new List<Course> {};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM courses;";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+                int courseId = rdr.GetInt32(0);
+                string courseName = rdr.GetString(1);
+                string courseNumber = rdr.GetString(2);
+                string professor = rdr.GetString(3);
+
+                Course newCourse = new Course(courseName, courseNumber, professor, courseId);
+                allCourses.Add(newCourse);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+                return allCourses;
+        }
+
+        public void Save()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO `courses` (`course_name`, `course_number`, `professor`) VALUES (@CourseName, @CourseNumber, @Professor);";
+
+            MySqlParameter name = new MySqlParameter();
+            name.ParameterName = "@CourseName";
+            name.Value = this._courseName;
+
+            MySqlParameter courseNumber = new MySqlParameter();
+            courseNumber.ParameterName = "@CourseNumber";
+            courseNumber.Value = this._courseNumber;
+
+            MySqlParameter professor = new MySqlParameter();
+            professor.ParameterName = "@Professor";
+            professor.Value = this._professor;
+
+            cmd.Parameters.Add(name);
+            cmd.Parameters.Add(courseNumber);
+            cmd.Parameters.Add(professor);
+
+            cmd.ExecuteNonQuery();
+            _id = (int) cmd.LastInsertedId;
+
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
     }
 }
