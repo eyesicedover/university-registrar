@@ -10,7 +10,7 @@ namespace Registrar.Models
         private string _name;
         private string _rawDate;
 
-        public Student(int Id = 0, string name, string date)
+        public Student(string name, string date, int Id = 0)
         {
             _id = Id;
             _name = name;
@@ -37,6 +37,48 @@ namespace Registrar.Models
             _name = newName;
         }
 
+        public int GetId()
+        {
+            return _id;
+        }
+
+        public override bool Equals(System.Object otherStudent)
+        {
+            if (!(otherStudent is Student))
+            {
+                return false;
+            }
+            else
+            {
+                Student newStudent = (Student) otherStudent;
+                bool idEquality = (this.GetId() == newStudent.GetId());
+                bool nameEquality = (this.GetName() == newStudent.GetName());
+                bool dateEquality = (this.GetDate() == newStudent.GetDate());
+                return (idEquality && nameEquality && dateEquality);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return this.GetName().GetHashCode();
+        }
+
+        public static void DeleteAll()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM students;";
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
 
     }
 }
