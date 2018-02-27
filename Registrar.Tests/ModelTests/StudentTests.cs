@@ -54,5 +54,17 @@ namespace Registrar.Tests
             //Assert
             CollectionAssert.AreEqual(testList, result);
         }
+        [TestMethod]
+        public void Find_FindsStudentId_ReturnsStudent()
+        {
+            //arrange
+            Student testStudent = new Student("Eric", "2018-02-27");
+            testStudent.Save();
+
+            //act
+            Student foundStudent = Student.Find(testStudent.GetId());
+            //assert
+            Assert.AreEqual(testStudent, foundStudent);
+        }
     }
 }
