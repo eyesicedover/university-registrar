@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Student Name</th>
+      <th>Student Enrollment Date</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var student in Model)
+  {
+    <tr>
+      <td><a href="/students/@student.GetId()/detail">@student.GetName()</a></td>
+      <td>@student.GetDate()</td>
+      <form class="/students/@student.GetId()/delete" action="index.html" method="post">
+          <td><button type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+      </form>
+    </tr>
+  }
+  </tbody>
+</table>
+<h4><a href="/students/new">Add New Student</a></h4>
+<h4><a href="/courses/new">Add New Courses</a></h4>
+<h4><a href="/">Go To Homepage</a></h4>

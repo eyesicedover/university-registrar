@@ -1,0 +1,22 @@
+@{
+  Layout = "_Layout";
+}
+
+<h3>Enter a New Student Below</h3>
+<form class="form-group" action="/students" method="post">
+    <label for="studentName">Student Name:</label>
+    <input type="text" name="studentName" class="form-control">
+    <label for="studentDate">Student Enrollment Date:</label>
+    <input type="date" name="studentDate" class="form-control">
+    <select class="form-control" name="course">
+    @foreach (var course in Model)
+    {
+        <option>@course.GetName()</option>
+    }
+    </select>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<h4><a href="/students">Go Back To All Students</a></h4>
+<h4><a href="/courses/new">Add New Courses</a></h4>
+<h4><a href="/">Go To Homepage</a></h4>
